@@ -81,7 +81,13 @@ func (a *Agent) Run(ctx context.Context) error {
 			log.Fatal(err)
 		}
 
-		agentMessage := &genai.Part{Text: response.Text()}
+
+		var agentMessage *genai.Part
+		if len(response.Candidates[0].Content.Parts) > 0 {
+			agentMessage = response.Candidates[0].Content.Parts[0]
+		} else {
+			agentMessage = &genai.Part{Text: response.Text()}
+		}
 
 		toolResults := []*genai.Part{}
 
@@ -135,7 +141,6 @@ func (a *Agent) Run(ctx context.Context) error {
 			readUserInput = true
 			continue
 		}
-
 		readUserInput = false
 		// Add the results of the function calls to the conversation
 		conversation = append(conversation, toolResults...)

@@ -23,5 +23,33 @@ func GetTools() []ToolDefinition {
 			Definition: EditFileDefinition,
 			Function:   EditFile,
 		},
+		{
+			Definition: ListReposDefination,
+			Function: ListRepos,
+		},
+		{
+			Definition: FileStatusDefination,
+			Function: FileStatus,
+		},
+		{
+			Definition: AddFileDefination,
+			Function: AddFile,
+		},
+		{
+			Definition: CheckoutDefination,
+			Function: Checkout,
+		},
+		{
+			Definition: AddRemoteAndPushDefination,
+			Function: AddRemoteAndPush,
+		},
+		{
+			Definition: CommitChangesDefination,
+			Function: CommitChanges,
+		},
+		{
+			Definition: ListingRemotesDefination,
+			Function: ListingRemotes,
+		},
 	}
 }

@@ -2,7 +2,6 @@ package gitTools
 
 import (
 	"os"
-	"path/filepath"
 	"testing"
 	"os/exec"
 	"strings"
@@ -11,12 +10,7 @@ import (
 	"google.golang.org/genai"
 )
 
-// Helper to create a temporary .gitignore file
-func createTempGitignore(dir string, content string) (string, error) {
-	path := filepath.Join(dir, ".gitignore")
-	err := os.WriteFile(path, []byte(content), 0644)
-	return path, err
-}
+
 
 func TestEnsureGitignore_CreatesFileWithDotEnv(t *testing.T) {
     // Change working directory to root (one level up)

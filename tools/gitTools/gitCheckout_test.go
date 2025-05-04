@@ -40,12 +40,14 @@ func TestMockedGitCommand(t *testing.T) {
 
 	if os.Getenv("MOCK_ERROR") == "true" {
 		os.Stderr.WriteString("simulated git error")
-		os.Exit(1)
+		os.Exit(1) // Simulates failure
 	}
 
+	// Simulate success
 	fmt.Fprint(os.Stdout, os.Getenv("MOCK_STDOUT"))
-	os.Exit(0)
+	os.Exit(0) // Critical: ensures successful exit
 }
+
 
 func TestGitCheckout_ExistingBranch(t *testing.T) {
 	execCommand = mockGitCommand("* main\nfeature-a\n", false)

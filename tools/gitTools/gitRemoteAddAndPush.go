@@ -56,9 +56,11 @@ func GitAddRemoteAndPush(input *genai.FunctionCall) (string, error) {
 
 	// Run the check command to see if remote exists
 	_, err := cmdCheckRemote.CombinedOutput()
+
+	var remoteStatusMessage string
 	if err == nil {
 		// Remote exists, skip adding
-		fmt.Println("Remote 'origin' already exists, skipping remote add.")
+		remoteStatusMessage ="Remote 'origin' already exists, skipping remote add."
 	} else {
 		// Remote doesn't exist, add it
 		cmdAddRemote := execCommand("git", "remote", "add", "origin", url)
@@ -69,7 +71,7 @@ func GitAddRemoteAndPush(input *genai.FunctionCall) (string, error) {
 		if err != nil {
 			return "Failed to add remote", fmt.Errorf("error adding remote: %v\noutput: %s", err, outputAddRemote)
 		}
-		fmt.Println("Remote added successfully")
+		remoteStatusMessage="Remote added successfully"
 	}
 
 	cmdPush := execCommand("git", "push", "-u", url, branch)
@@ -85,5 +87,5 @@ func GitAddRemoteAndPush(input *genai.FunctionCall) (string, error) {
 	}
 
 	// Return the result of both operations
-	return fmt.Sprintf("Push to remote completed successfully. %s", outputPush), nil
+	return fmt.Sprintf("Push to remote completed successfully. %s%s",remoteStatusMessage, outputPush), nil
 }

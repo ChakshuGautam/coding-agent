@@ -91,6 +91,7 @@ func TestGitAddRemoteAndPush_CommandFails(t *testing.T) {
 func TestGitAddRemoteAndPush_ExistingRemote(t *testing.T) {
 	mockOutput := "Remote 'origin' already exists, skipping remote add."
 
+	// Change this to ensure that the remote exists message is set
 	execCommand = mockGitPushCommand(mockOutput, false)
 	defer func() { execCommand = exec.Command }()
 
@@ -113,6 +114,7 @@ func TestGitAddRemoteAndPush_ExistingRemote(t *testing.T) {
 	}
 }
 
+
 func TestGitAddRemoteAndPush_MissingRepoName(t *testing.T) {
 	input := &genai.FunctionCall{
 		Args: map[string]any{
@@ -125,4 +127,10 @@ func TestGitAddRemoteAndPush_MissingRepoName(t *testing.T) {
 	if err == nil {
 		t.Fatal("Expected error for missing repo name, got nil")
 	}
+
+	expectedError := "repo name is required"
+	if err.Error() != expectedError {
+		t.Errorf("Expected error: %s, got: %v", expectedError, err)
+	}
 }
+

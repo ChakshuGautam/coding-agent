@@ -41,7 +41,10 @@ func GitAddRemoteAndPush(input *genai.FunctionCall) (string, error) {
 	if !ok || username==""{
 		username=os.Getenv("GIT_USERNAME")
 	}
-	repoName := input.Args["Name"].(string)
+	repoName, ok := input.Args["Name"].(string)
+	if !ok || repoName == "" {
+		return "", fmt.Errorf("repo name is required")
+	}
 	branch := input.Args["Branch"].(string)
 
 	dir := "./"

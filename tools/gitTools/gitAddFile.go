@@ -26,7 +26,7 @@ var GitAddFileDefination = &genai.FunctionDeclaration{
 
 // EnsureGitignore checks if .gitignore exists, and ensures ".env" is listed
 func EnsureGitignore() error {
-	const gitignorePath = "../.gitignore"
+	const gitignorePath = "../../.gitignore"
 	const entry = ".env"
 
 	// Check if .gitignore exists

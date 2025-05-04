@@ -110,7 +110,8 @@ func TestGitAddRemoteAndPush_ExistingRemote(t *testing.T) {
 		t.Fatalf("Expected no error, got: %v", err)
 	}
 
-	expected := fmt.Sprintf("Push to remote completed successfully. %s", mockOutput)
+	expected := "Push to remote completed successfully.\nRemote 'origin' already exists, skipping remote add."
+
 	if output != expected {
 		t.Errorf("Unexpected output.\nExpected:\n%s\nGot:\n%s", expected, output)
 	}

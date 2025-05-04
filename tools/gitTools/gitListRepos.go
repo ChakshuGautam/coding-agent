@@ -30,26 +30,27 @@ var GitListReposDefination = &genai.FunctionDeclaration{
 
 
 
-func GitListRepos(input *genai.FunctionCall) (string,error){
-    ctx := context.Background()
-    ts := oauth2.StaticTokenSource(
-        &oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
-    )
-    tc := oauth2.NewClient(ctx, ts)
+func GitListRepos(input *genai.FunctionCall) (string, error) {
+	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
+	)
+	tc := oauth2.NewClient(ctx, ts)
 
-    client := github.NewClient(tc)
+	client := github.NewClient(tc)
 	repos, _, err := client.Repositories.List(ctx, "", nil)
 	if err != nil {
 		return "", err
 	}
 
-	result :=""
-    for i, repo := range repos {
-		if( i >0 ){
-			result +="\n"
+	result := ""
+	for i, repo := range repos {
+		if i > 0 {
+			result += "\n"
 		}
 		result += *repo.Name
-    }
+	}
 
 	return result, nil
 }
+

@@ -55,13 +55,8 @@ func TestGitListRepos_EmptyList(t *testing.T) {
 }
 
 func TestGitListRepos_Unauthorized(t *testing.T) {
+	// Simulate invalid token
 	os.Setenv("GITHUB_TOKEN", "invalid_token")
-
-	httpmock.Activate()
-	defer httpmock.DeactivateAndReset()
-
-	httpmock.RegisterResponder("GET", "https://api.github.com/user/repos",
-		httpmock.NewStringResponder(401, `{"message": "Bad credentials"}`))
 
 	input := &genai.FunctionCall{
 		Name: "listRepos",
@@ -69,6 +64,13 @@ func TestGitListRepos_Unauthorized(t *testing.T) {
 	}
 
 	result, err := GitListRepos(input)
-	assert.NoError(t, err) // because your current implementation ignores the error!
-	assert.Equal(t, "", result)
+
+	if err == nil {
+		t.Errorf("Expected an error due to unauthorized access, but got none")
+	}
+
+	if result != "" {
+		t.Errorf("Expected empty result due to unauthorized access, got: %s", result)
+	}
 }
+

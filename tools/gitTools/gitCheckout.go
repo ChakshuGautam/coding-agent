@@ -7,6 +7,8 @@ import (
 	"google.golang.org/genai"
 )
 
+var execCommand = exec.Command
+
 var CheckoutInput = &genai.Schema{
 	Type: genai.TypeObject,
 	Properties: map[string]*genai.Schema{

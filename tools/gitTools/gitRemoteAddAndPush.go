@@ -45,8 +45,12 @@ func GitAddRemoteAndPush(input *genai.FunctionCall) (string, error) {
 	if !ok || repoName == "" {
 		return "", fmt.Errorf("repo name is required")
 	}
-	branch := input.Args["Branch"].(string)
-
+	branch := "main" // default
+	if val, ok := input.Args["Branch"]; ok && val != nil {
+	if b, ok := val.(string); ok && b != "" {
+		branch = b
+	}
+}
 	dir := "./"
 
 	url := fmt.Sprintf("https://github.com/%s/%s.git", username, repoName)

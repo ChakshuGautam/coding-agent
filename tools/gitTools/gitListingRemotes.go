@@ -2,7 +2,6 @@ package gitTools
 
 import (
 	"fmt"
-	"os/exec"
 
 	"google.golang.org/genai"
 )
@@ -14,7 +13,7 @@ var GitListingRemotesDefination = &genai.FunctionDeclaration{
 }
 
 func GitListingRemotes(input *genai.FunctionCall) (string, error) {
-	cmd := exec.Command("git", "remote", "-v")
+	cmd := execCommand("git", "remote", "-v")
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {

@@ -39,7 +39,7 @@ func mockGitPushCommand(stdout string, simulateError bool) func(string, ...strin
 
 
 func TestGitAddRemoteAndPush_Success(t *testing.T) {
-	mockOutput := `Enumerating objects: 10, done.
+	mockPushOutput := `Enumerating objects: 10, done.
 Counting objects: 100% (10/10), done.
 Delta compression using up to 8 threads
 Compressing objects: 100% (7/7), done.
@@ -48,7 +48,8 @@ Total 10 (delta 2), reused 0 (delta 0), pack-reused 0
 To https://github.com/username/reponame.git
  * [new branch]      main -> main`
 
-	execCommand = mockGitPushCommand(mockOutput, false)
+
+	execCommand = mockGitPushCommand(mockPushOutput, false)
 	defer func() { execCommand = exec.Command }()
 
 	input := &genai.FunctionCall{
@@ -64,7 +65,8 @@ To https://github.com/username/reponame.git
 		t.Fatalf("Expected no error, got: %v", err)
 	}
 
-	expected := fmt.Sprintf("Push to remote completed successfully. %s", mockOutput)
+	expected := fmt.Sprintf("Push to remote completed successfully. %s", mockPushOutput)
+
 	if output != expected {
 		t.Errorf("Unexpected output.\nExpected:\n%s\nGot:\n%s", expected, output)
 	}

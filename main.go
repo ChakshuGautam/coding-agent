@@ -9,15 +9,22 @@ import (
 
 	"agent/tools"
 
+	"github.com/joho/godotenv"
+
 	"google.golang.org/genai"
 )
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found, continuing with system env vars")
+	}
+
 	ctx := context.Background()
 
 	agentTools := tools.GetTools()
 
 	apiKey := os.Getenv("GEMINI_API_KEY")
+
 	client, errInClientGenai := genai.NewClient(ctx, &genai.ClientConfig{
 		APIKey:  apiKey,
 		Backend: genai.BackendGeminiAPI,
@@ -42,6 +49,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("File execution ended")
 }
 
 func NewAgent(client *genai.Client, getUserMessage func() (string, bool), tools []tools.ToolDefinition) *Agent {

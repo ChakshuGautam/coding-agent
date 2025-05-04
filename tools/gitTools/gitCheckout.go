@@ -27,7 +27,7 @@ var GitCheckoutDefination = &genai.FunctionDeclaration{
 }
 
 func ExistingBranches() (string, error){
-	cmd := exec.Command("git", "branch")
+	cmd := execCommand("git", "branch")
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		return "", fmt.Errorf("error: %v", err)
@@ -54,9 +54,9 @@ func GitCheckout(input *genai.FunctionCall) (string, error) {
 	for _,branch := range branches{
 		branch = strings.TrimSpace(strings.TrimPrefix(branch,"*"))
 		if branch == name{
-			cmd = exec.Command("git", "checkout", name)
+			cmd = execCommand("git", "checkout", name)
 		}else{
-			cmd = exec.Command("git", "checkout","-b", name)
+			cmd = execCommand("git", "checkout","-b", name)
 		}
 	}
 

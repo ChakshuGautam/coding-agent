@@ -17,10 +17,10 @@ func restoreExecCommand() {
 	execCommand = originalExecCommand
 }
 
-// mockGitCommand returns a mock exec.Command function that returns specified output and error
-func mockGitCommand(stdout string, simulateError bool) func(name string, args ...string) *exec.Cmd {
+// mockGitChechoutCommand returns a mock exec.Command function that returns specified output and error
+func mockGitChechoutCommand(stdout string, simulateError bool) func(name string, args ...string) *exec.Cmd {
 	return func(name string, args ...string) *exec.Cmd {
-		cs := []string{"-test.run=TestMockedGitCommand", "--", name}
+		cs := []string{"-test.run=TestGitChechoutCommand", "--", name}
 		cs = append(cs, args...)
 		cmd := exec.Command(os.Args[0], cs...)
 		cmd.Env = append(cmd.Env,
@@ -33,7 +33,7 @@ func mockGitCommand(stdout string, simulateError bool) func(name string, args ..
 }
 
 // This function acts as a helper subprocess to simulate git command output
-func TestMockedGitCommand(t *testing.T) {
+func TestGitChechoutCommand(t *testing.T) {
 	if os.Getenv("MOCK_GIT") != "1" {
 		return
 	}
@@ -50,7 +50,7 @@ func TestMockedGitCommand(t *testing.T) {
 
 
 func TestGitCheckout_ExistingBranch(t *testing.T) {
-	execCommand = mockGitCommand("* main\nfeature-a\n", false)
+	execCommand = mockGitChechoutCommand("* main\nfeature-a\n", false)
 	defer restoreExecCommand()
 
 	input := &genai.FunctionCall{
@@ -70,7 +70,7 @@ func TestGitCheckout_ExistingBranch(t *testing.T) {
 }
 
 func TestGitCheckout_NewBranch(t *testing.T) {
-	execCommand = mockGitCommand("* main\nfeature-a\n", false)
+	execCommand = mockGitChechoutCommand("* main\nfeature-a\n", false)
 	defer restoreExecCommand()
 
 	input := &genai.FunctionCall{
@@ -90,7 +90,7 @@ func TestGitCheckout_NewBranch(t *testing.T) {
 }
 
 func TestGitCheckout_NoBranchName(t *testing.T) {
-	execCommand = mockGitCommand("* main\n", false)
+	execCommand = mockGitChechoutCommand("* main\n", false)
 	defer restoreExecCommand()
 
 	input := &genai.FunctionCall{
@@ -105,7 +105,7 @@ func TestGitCheckout_NoBranchName(t *testing.T) {
 }
 
 func TestGitCheckout_CommandFails(t *testing.T) {
-	execCommand = mockGitCommand("", true)
+	execCommand = mockGitChechoutCommand("", true)
 	defer restoreExecCommand()
 
 	input := &genai.FunctionCall{

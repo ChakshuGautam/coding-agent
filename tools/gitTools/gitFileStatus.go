@@ -2,10 +2,10 @@ package gitTools
 
 import (
 	"fmt"
-	"os/exec"
-
 	"google.golang.org/genai"
 )
+
+
 
 var FileStatusInput = &genai.Schema{
 	Type: genai.TypeObject,
@@ -24,7 +24,7 @@ var GitFileStatusDefinition = &genai.FunctionDeclaration{
 }
 
 func GitFileStatus(input *genai.FunctionCall) (string,error){
-	cmd := exec.Command("git", "status")
+	cmd := execCommand("git", "status")
 	output, err := cmd.CombinedOutput()
 	if err!=nil{
 		return "",fmt.Errorf("error : %v",err)

@@ -3,7 +3,6 @@ package gitTools
 import (
 	
 	"fmt"
-	"os/exec"
 	"os"
 	"context"
 	"google.golang.org/genai"
@@ -32,7 +31,7 @@ func GitCommitChanges(input *genai.FunctionCall) (string, error) {
 
 	if !ok || message == "" {
 		// Step 1: Get staged diff
-		diffCmd := exec.Command("git", "diff", "--cached")
+		diffCmd := execCommand("git", "diff", "--cached")
 		diffOutput, err := diffCmd.CombinedOutput()
 		if err != nil {
 			return "", fmt.Errorf("failed to get diff: %v", err)
@@ -53,7 +52,7 @@ func GitCommitChanges(input *genai.FunctionCall) (string, error) {
 		message = resp
 	}
 
-	cmd := exec.Command("git", "commit", "-m", message)
+	cmd := execCommand("git", "commit", "-m", message)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		return "", fmt.Errorf("error committing: %v\n%s", err, string(output))
@@ -63,7 +62,8 @@ func GitCommitChanges(input *genai.FunctionCall) (string, error) {
 }
 
 
-func GenerateCommitMessage(diff string) (string, error) {
+
+var GenerateCommitMessage=func(diff string) (string, error) {
 	apiKey := os.Getenv("GEMINI_API_KEY")
 	ctx := context.Background()
 

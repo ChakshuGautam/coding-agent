@@ -37,12 +37,6 @@ func mockGitStatusCommand(stdout string, simulateError bool) func(name string, a
 	}
 }
 
-func boolToString(b bool) string {
-	if b {
-		return "true"
-	}
-	return "false"
-}
 
 func TestGitFileStatus_Success(t *testing.T) {
 	// Arrange

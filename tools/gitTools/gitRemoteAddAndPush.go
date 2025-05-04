@@ -91,5 +91,6 @@ func GitAddRemoteAndPush(input *genai.FunctionCall) (string, error) {
 	}
 
 	// Return the result of both operations
-	return fmt.Sprintf("Push to remote completed successfully. %s%s",remoteStatusMessage, outputPush), nil
+	return fmt.Sprintf("Push to remote completed successfully.\n%s\n%s", remoteStatusMessage, outputPush), nil
+
 }

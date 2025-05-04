@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"google.golang.org/genai"
-	"strings"
 
 )
 

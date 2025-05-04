@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"google.golang.org/genai"
+	"strings"
 
 )
 
@@ -89,7 +90,7 @@ func GitAddRemoteAndPush(input *genai.FunctionCall) (string, error) {
 	if err != nil {
 		return "Failed to push to GitHub", fmt.Errorf("error pushing to GitHub: %v\noutput: %s", err, outputPush)
 	}
-	fmt.Sprintf(string(outputPush))
+	fmt.Sprintf("%s", string(outputPush))
 	// Return the result of both operations
 	return fmt.Sprintf("Push to remote completed successfully.\n%s\n%s", remoteStatusMessage, outputPush), nil
 

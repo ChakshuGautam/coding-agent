@@ -42,7 +42,7 @@ func GitCommitChanges(input *genai.FunctionCall) (string, error) {
 		}
 
 		// fmt.Print(functionCall,"is the function call output")
-		resp, err := GenerateCommitMessage(diffText)
+		resp, err := GenerateCommitMessage(diffText,nil)
 		if err != nil {
 			return "", fmt.Errorf("AI generation failed: %v", err)
 		}
@@ -63,16 +63,23 @@ func GitCommitChanges(input *genai.FunctionCall) (string, error) {
 
 
 
-var GenerateCommitMessage=func(diff string) (string, error) {
+
+var GenerateCommitMessage=func(diff string, optClient *genai.Client) (string, error) {
 	apiKey := os.Getenv("GEMINI_API_KEY")
 	ctx := context.Background()
 
-	client, err := genai.NewClient(ctx, &genai.ClientConfig{
-		APIKey:  apiKey,
-		// Backend: genai.BackendGeminiAPI,
-	})
-	if err != nil {
-		return "", err
+	var client *genai.Client
+	var err error
+	
+	if optClient != nil {
+		client = optClient
+	} else {
+		client, err = genai.NewClient(ctx, &genai.ClientConfig{
+			APIKey:  apiKey,
+		})
+		if err != nil {
+			return "", err
+		}
 	}
 
 	prompt := fmt.Sprintf("Generate a concise Git commit message for the following code changes:\n\n%s", diff)

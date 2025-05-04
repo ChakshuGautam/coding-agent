@@ -82,7 +82,7 @@ func TestGitCommitChanges_NoMessage_AICommit(t *testing.T) {
 
 	// Override GenerateCommitMessage
 	originalGen := GenerateCommitMessage
-	GenerateCommitMessage = func(diff string) (string, error) {
+	GenerateCommitMessage = func(diff string, optClient*genai.Client) (string, error) {
 		return "auto-gen msg", nil
 	}
 	defer func() { GenerateCommitMessage = originalGen }()
@@ -136,7 +136,7 @@ func TestGitCommitChanges_AIGenerationFails(t *testing.T) {
 
 	// Override GenerateCommitMessage
 	originalGen := GenerateCommitMessage
-	GenerateCommitMessage = func(diff string) (string, error) {
+	GenerateCommitMessage = func(diff string,optClient *genai.Client) (string, error) {
 		return "", fmt.Errorf("AI failed")
 	}
 	defer func() { GenerateCommitMessage = originalGen }()

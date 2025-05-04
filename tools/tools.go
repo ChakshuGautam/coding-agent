@@ -29,8 +29,8 @@ func GetTools() []ToolDefinition {
 			Function: ListRepos,
 		},
 		{
-			Definition: gitTools.GitAddFileDefination,
-			Function: gitTools.GitAddFile,
+			Definition: gitTools.GitFileStatusDefinition,
+			Function: gitTools.GitFileStatus,
 		},
 		{
 			Definition: gitTools.GitAddFileDefination,

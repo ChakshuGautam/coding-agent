@@ -1,6 +1,7 @@
 package tools
 
 import "google.golang.org/genai"
+import "agent/tools/gitTools"
 
 // ToolDefinition represents a tool that can be used by the agent
 type ToolDefinition struct {
@@ -22,6 +23,34 @@ func GetTools() []ToolDefinition {
 		{
 			Definition: EditFileDefinition,
 			Function:   EditFile,
+		},
+		{
+			Definition: gitTools.GitListReposDefination,
+			Function: gitTools.GitListRepos,
+		},
+		{
+			Definition: gitTools.GitFileStatusDefinition,
+			Function: gitTools.GitFileStatus,
+		},
+		{
+			Definition: gitTools.GitAddFileDefination,
+			Function: gitTools.GitAddFile,
+		},
+		{
+			Definition: gitTools.GitCheckoutDefination,
+			Function: gitTools.GitCheckout,
+		},
+		{
+			Definition: gitTools.GitAddRemoteAndPushDefination,
+			Function: gitTools.GitAddRemoteAndPush,
+		},
+		{
+			Definition: gitTools.GitCommitChangesDefination,
+			Function: gitTools.GitCommitChanges,
+		},
+		{
+			Definition: gitTools.GitListingRemotesDefination,
+			Function: gitTools.GitListingRemotes,
 		},
 	}
 }

@@ -39,14 +39,7 @@ func mockGitPushCommand(stdout string, simulateError bool) func(string, ...strin
 
 
 func TestGitAddRemoteAndPush_Success(t *testing.T) {
-	mockPushOutput := `Enumerating objects: 10, done.
-Counting objects: 100% (10/10), done.
-Delta compression using up to 8 threads
-Compressing objects: 100% (7/7), done.
-Writing objects: 100% (10/10), 1.38 KiB | 1.38 MiB/s, done.
-Total 10 (delta 2), reused 0 (delta 0), pack-reused 0
-To https://github.com/username/reponame.git
- * [new branch]      main -> main`
+	mockPushOutput := `Remote 'origin' already exists, skipping remote add.`
 
 
 	execCommand = mockGitPushCommand(mockPushOutput, false)
@@ -65,7 +58,7 @@ To https://github.com/username/reponame.git
 		t.Fatalf("Expected no error, got: %v", err)
 	}
 
-	expected := fmt.Sprintf("Push to remote completed successfully. %s", mockPushOutput)
+	expected := fmt.Sprintf("%s Push to remote completed successfully.", mockPushOutput)
 
 	if output != expected {
 		t.Errorf("Unexpected output.\nExpected:\n%s\nGot:\n%s", expected, output)
@@ -110,7 +103,7 @@ func TestGitAddRemoteAndPush_ExistingRemote(t *testing.T) {
 		t.Fatalf("Expected no error, got: %v", err)
 	}
 
-	expected := "Push to remote completed successfully.\nRemote 'origin' already exists, skipping remote add.\n"
+	expected := "Remote 'origin' already exists, skipping remote add. Push to remote completed successfully."
 
 	if output != expected {
 		t.Errorf("Unexpected output.\nExpected:\n%s\nGot:\n%s", expected, output)

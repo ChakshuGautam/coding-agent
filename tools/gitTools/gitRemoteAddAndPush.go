@@ -3,7 +3,6 @@ import (
 	
 	"fmt"
 	"os"
-	"os/exec"
 	"google.golang.org/genai"
 
 )
@@ -49,7 +48,7 @@ func GitAddRemoteAndPush(input *genai.FunctionCall) (string, error) {
 
 	url := fmt.Sprintf("https://github.com/%s/%s.git", username, repoName)
 
-	cmdCheckRemote := exec.Command("git", "remote", "get-url", "origin")
+	cmdCheckRemote := execCommand("git", "remote", "get-url", "origin")
 	cmdCheckRemote.Dir = dir 
 
 	// Run the check command to see if remote exists
@@ -59,7 +58,7 @@ func GitAddRemoteAndPush(input *genai.FunctionCall) (string, error) {
 		fmt.Println("Remote 'origin' already exists, skipping remote add.")
 	} else {
 		// Remote doesn't exist, add it
-		cmdAddRemote := exec.Command("git", "remote", "add", "origin", url)
+		cmdAddRemote := execCommand("git", "remote", "add", "origin", url)
 		cmdAddRemote.Dir = dir // Set the directory for the repo
 
 		// Execute remote add command
@@ -70,7 +69,7 @@ func GitAddRemoteAndPush(input *genai.FunctionCall) (string, error) {
 		fmt.Println("Remote added successfully")
 	}
 
-	cmdPush := exec.Command("git", "push", "-u", url, branch)
+	cmdPush := execCommand("git", "push", "-u", url, branch)
 	cmdPush.Dir = dir 
 
 	// Set up authentication using GitHub token for HTTPS

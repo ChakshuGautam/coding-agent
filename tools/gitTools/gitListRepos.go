@@ -1,4 +1,4 @@
-package tools
+package gitTools
 
 import (
 	
@@ -22,7 +22,7 @@ var ListResposInput = &genai.Schema{
 	},
 }
 
-var ListReposDefination = &genai.FunctionDeclaration{
+var GitListReposDefination = &genai.FunctionDeclaration{
 	Name: "listRepos",
 	Description: "List all the repos of user. If no user specified, list files of own user.",
 	Parameters: ListResposInput,
@@ -30,7 +30,7 @@ var ListReposDefination = &genai.FunctionDeclaration{
 
 
 
-func ListRepos(input *genai.FunctionCall) (string,error){
+func GitListRepos(input *genai.FunctionCall) (string,error){
     ctx := context.Background()
     ts := oauth2.StaticTokenSource(
         &oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
@@ -38,7 +38,11 @@ func ListRepos(input *genai.FunctionCall) (string,error){
     tc := oauth2.NewClient(ctx, ts)
 
     client := github.NewClient(tc)
-    repos, _, _ := client.Repositories.List(ctx, "", nil)
+	repos, _, err := client.Repositories.List(ctx, "", nil)
+	if err != nil {
+		return "", err
+	}
+
 	result :=""
     for i, repo := range repos {
 		if( i >0 ){

@@ -25,8 +25,8 @@ func GetTools() []ToolDefinition {
 			Function:   EditFile,
 		},
 		{
-			Definition: ListReposDefination,
-			Function: ListRepos,
+			Definition: gitTools.GitListReposDefination,
+			Function: gitTools.GitListRepos,
 		},
 		{
 			Definition: gitTools.GitFileStatusDefinition,
